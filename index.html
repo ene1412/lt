@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Progress Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #1e1e2e;
+            color: white;
+            padding: 20px;
+        }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            background: #282a36;
+        }
+        th, td {
+            border: 1px solid #6272a4;
+            padding: 10px;
+        }
+        th {
+            background: #ff79c6;
+            color: white;
+        }
+        input[type="checkbox"] {
+            transform: scale(1.5);
+        }
+        select {
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: black;
+            background-color: #44475a;
+            color: white;
+            border: 1px solid #6272a4;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+        .filter-container {
+            margin-bottom: 20px;
+        }
+        .filter-container label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .filter-container select {
+            padding: 8px 12px;
+            font-size: 14px;
+            background-color: #44475a;
+            color: white;
+            border: 1px solid #6272a4;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .filter-container select:hover {
+            background-color: #6272a4;
+        }
+    </style>
+    <script>
+        function filterTable() {
+            var category = document.getElementById("categorySelect").value;
+            var rows = document.querySelectorAll(".problem-row");
+            rows.forEach(row => {
+                if (category === "All" || row.classList.contains(category)) {
+                    row.classList.remove("hidden");
+                } else {
+                    row.classList.add("hidden");
+                }
+            });
+        }
+
+        function saveProgress() {
+            let checkboxes = document.querySelectorAll("input[type='checkbox']");
+            let progress = {};
+            checkboxes.forEach((checkbox, index) => {
+                progress[index] = checkbox.checked;
+            });
+            localStorage.setItem("leetcodeProgress", JSON.stringify(progress));
+        }
+
+        function loadProgress() {
+            let savedProgress = localStorage.getItem("leetcodeProgress");
+            let checkboxes = document.querySelectorAll("input[type='checkbox']");
+            let progress = savedProgress ? JSON.parse(savedProgress) : {};
+            checkboxes.forEach((checkbox, index) => {
+                checkbox.checked = progress[index] || false;
+                checkbox.addEventListener("change", saveProgress);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", loadProgress);
+    </script>
+</head>
+<body>
+    <h1>✅ LeetCode Problem Tracker</h1>
+    <div class="filter-container">
+        <label for="categorySelect">Select Category:</label>
+        <select id="categorySelect" onchange="filterTable()">
+            <option value="All">All Problems</option>
+            <option value="Array">Array</option>
+            <option value="Math">Math</option>
+        </select>
+    </div>
+    
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Problem Name</th>
+            <th>LeetCode Link</th>
+            <th>Done?</th>
+        </tr>
+        <script>
+            const problems = {
+                Array: [
+                    "https://leetcode.com/problems/find-the-largest-element-in-an-array/",
+                    "https://leetcode.com/problems/two-sum/",
+                    "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+                    "https://leetcode.com/problems/rotate-array/",
+                    "https://leetcode.com/problems/missing-number/",
+                    "https://leetcode.com/problems/longest-consecutive-sequence/",
+                    "https://leetcode.com/problems/merge-intervals/",
+                    "https://leetcode.com/problems/product-of-array-except-self/",
+                    "https://leetcode.com/problems/find-the-duplicate-number/",
+                    "https://leetcode.com/problems/subarray-sum-equals-k/",
+                    "https://leetcode.com/problems/next-permutation/",
+                    "https://leetcode.com/problems/sort-colors/",
+                    "https://leetcode.com/problems/largest-rectangle-in-histogram/",
+                    "https://leetcode.com/problems/jump-game/",
+                    "https://leetcode.com/problems/trapping-rain-water/",
+                    "https://leetcode.com/problems/container-with-most-water/",
+                    "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
+                    "https://leetcode.com/problems/search-in-rotated-sorted-array/",
+                    "https://leetcode.com/problems/majority-element/",
+                    "https://leetcode.com/problems/spiral-matrix/",
+                    "https://leetcode.com/problems/set-matrix-zeroes/",
+                    "https://leetcode.com/problems/sliding-window-maximum/",
+                    "https://leetcode.com/problems/merge-sorted-array/",
+                    "https://leetcode.com/problems/kth-largest-element-in-an-array/",
+                    "https://leetcode.com/problems/maximum-product-subarray/",
+                    "https://leetcode.com/problems/best-meeting-point/",
+                    "https://leetcode.com/problems/valid-sudoku/",
+                    "https://leetcode.com/problems/first-missing-positive/",
+                    "https://leetcode.com/problems/insert-interval/",
+                    "https://leetcode.com/problems/game-of-life/"
+                ],
+                Math: [
+                    "https://leetcode.com/problems/power-of-two/",
+                    "https://leetcode.com/problems/factorial-trailing-zeroes/",
+                    "https://leetcode.com/problems/excel-sheet-column-number/",
+                    "https://leetcode.com/problems/reverse-integer/",
+                    "https://leetcode.com/problems/happy-number/",
+                    "https://leetcode.com/problems/add-digits/",
+                    "https://leetcode.com/problems/valid-perfect-square/",
+                    "https://leetcode.com/problems/ugly-number/",
+                    "https://leetcode.com/problems/roman-to-integer/",
+                    "https://leetcode.com/problems/integer-to-roman/",
+                    "https://leetcode.com/problems/string-to-integer-atoi/",
+                    "https://leetcode.com/problems/sqrtx/",
+                    "https://leetcode.com/problems/palindrome-number/",
+                    "https://leetcode.com/problems/missing-number/",
+                    "https://leetcode.com/problems/plus-one/",
+                    "https://leetcode.com/problems/powx-n/",
+                    "https://leetcode.com/problems/multiply-strings/",
+                    "https://leetcode.com/problems/divide-two-integers/",
+                    "https://leetcode.com/problems/super-pow/",
+                    "https://leetcode.com/problems/self-dividing-numbers/",
+                    "https://leetcode.com/problems/armstrong-number/",
+                    "https://leetcode.com/problems/perfect-number/",
+                    "https://leetcode.com/problems/reverse-bits/",
+                    "https://leetcode.com/problems/hamming-distance/",
+                    "https://leetcode.com/problems/prime-number-of-set-bits/",
+                    "https://leetcode.com/problems/count-primes/",
+                    "https://leetcode.com/problems/binary-number-with-alternating-bits/",
+                    "https://leetcode.com/problems/fibonacci-number/",
+                    "https://leetcode.com/problems/number-of-1-bits/",
+                    "https://leetcode.com/problems/base-7/"
+                ]
+            };
+            Object.keys(problems).forEach(category => {
+                problems[category].forEach((link, index) => {
+                    document.write(`<tr class='problem-row ${category}'><td>${index + 1}</td><td>${link.split('/').slice(-2, -1)}</td><td><a href='${link}' target='_blank'>🔗 Link</a></td><td><input type='checkbox'></td></tr>`);
+                });
+            });
+        </script>
+    </table>
+</body>
+</html>
